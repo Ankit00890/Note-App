@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { BookOpen, LogOut, User } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -14,34 +13,28 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-lg">
-      <Link to="/" className="flex items-center space-x-2 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-        <BookOpen className="text-purple-400" />
-        <span>NotesApp</span>
+    <nav className="fixed w-full top-0 z-50 bg-gray-900/90 backdrop-blur-lg border-b border-white/10 px-5 sm:px-8 py-4 flex justify-between items-center transition-all duration-300">
+      <Link to="/" className="flex items-center text-2xl font-bold text-white tracking-wide">
+        <span>Note App</span>
       </Link>
 
       <div className="flex items-center space-x-6">
-        <Link to="/story" className="text-gray-300 hover:text-white transition-colors">Our Story</Link>
-        
         {user ? (
           <div className="flex items-center space-x-4">
-            <span className="flex items-center text-gray-300">
-              <User className="mr-2 h-5 w-5" /> {user.name}
-            </span>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <span className="text-gray-300 font-medium hidden sm:block">Welcome, <span className="text-white">{user.name}</span></span>
+            <button 
               onClick={handleLogout}
-              className="flex items-center bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors shadow-lg"
+              className="flex items-center space-x-2 bg-white/10 hover:bg-red-500/20 text-gray-300 hover:text-red-400 border border-white/5 hover:border-red-500/50 px-4 py-2 rounded-xl transition-all duration-300"
             >
-              <LogOut className="mr-2 h-4 w-4" /> Logout
-            </motion.button>
+              <LogOut size={16} />
+              <span>Logout</span>
+            </button>
           </div>
         ) : (
-          <div className="space-x-4">
-            <Link to="/login" className="text-gray-300 hover:text-white transition-colors">Login</Link>
-            <Link to="/register" className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg transition-colors shadow-lg shadow-purple-500/30">
-              Register
+          <div className="flex items-center space-x-4">
+            <Link to="/login" className="text-gray-300 hover:text-white transition-colors duration-300 font-medium">Log In</Link>
+            <Link to="/register" className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:-translate-y-0.5">
+              Get Started
             </Link>
           </div>
         )}

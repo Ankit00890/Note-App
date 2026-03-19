@@ -2,14 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import api from '../api';
 import NoteCard from '../components/NoteCard';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X } from 'lucide-react';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [notes, setNotes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
   const [editingId, setEditingId] = useState(null);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -74,87 +72,95 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto min-h-screen">
-      <div className="flex justify-between items-center mb-10">
-        <div>
-          <h1 className="text-4xl font-bold text-white mb-2">My Notes</h1>
-          <p className="text-gray-400">Welcome back, {user?.name}</p>
-        </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => handleOpenModal()}
-          className="flex items-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-6 rounded-full shadow-lg shadow-purple-500/30 transition-all"
-        >
-          <Plus className="mr-2" /> New Note
-        </motion.button>
-      </div>
+    <div className="pt-24 pb-12 px-6 min-h-screen">
+      
+      {/* Removed background glow effects for a simpler look */}
 
-      {notes.length === 0 ? (
-        <div className="text-center py-20 text-gray-500">
-          <p className="text-xl">No notes found. Create your first note!</p>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-6">
+          <div>
+            <h1 className="text-4xl font-bold text-white mb-2">My Desk</h1>
+            <p className="text-gray-400">All your thoughts, synced securely.</p>
+          </div>
+          <button
+            onClick={() => handleOpenModal()}
+            className="flex items-center bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-6 rounded-xl shadow-[0_0_20px_rgba(79,70,229,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-0.5"
+          >
+            <Plus className="mr-2 h-5 w-5" /> New Note
+          </button>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence>
+
+        {notes.length === 0 ? (
+          <div className="flex flex-col flex-1 items-center justify-center py-32 text-center bg-white/5 backdrop-blur-md rounded-3xl border border-white/10">
+            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
+              <span className="text-3xl">📝</span>
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-2">No notes yet</h2>
+            <p className="text-gray-400 mb-8 max-w-sm mx-auto">Click the magical new note button above to create your first note.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {notes.map(note => (
               <NoteCard key={note._id} note={note} onEdit={handleOpenModal} onDelete={handleDelete} />
             ))}
-          </AnimatePresence>
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* Modal / Form */}
-      <AnimatePresence>
+        {/* Glassmorphism Modal */}
         {isModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 50 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 50 }}
-              className="bg-gray-800 p-8 rounded-2xl w-full max-w-lg shadow-2xl relative border border-gray-700"
-            >
-              <button onClick={handleCloseModal} className="absolute top-4 right-4 text-gray-400 hover:text-white">
-                <X />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-gray-900 border border-white/10 p-8 rounded-3xl shadow-2xl w-full max-w-lg relative">
+              
+              <button onClick={handleCloseModal} className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full">
+                <X size={20} />
               </button>
-              <h2 className="text-2xl font-bold mb-6 text-white">{editingId ? 'Edit Note' : 'Create Note'}</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
+
+              <h3 className="text-2xl font-bold text-white mb-8 pr-12">{editingId ? 'Edit Note' : 'Create Note'}</h3>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
                   <input
                     type="text"
-                    placeholder="Note Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 text-xl font-bold"
+                    placeholder="Enter a descriptive title..."
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                   />
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Content</label>
                   <textarea
-                    placeholder="Write your note here..."
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     required
-                    rows={6}
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+                    rows="6"
+                    placeholder="Write something amazing here..."
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none"
                   ></textarea>
                 </div>
-                <div className="flex justify-end pt-4">
-                  <button type="button" onClick={handleCloseModal} className="px-6 py-2 text-gray-400 hover:text-white mr-4">Cancel</button>
-                  <button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-2 rounded-lg shadow-lg">
-                    {editingId ? 'Update' : 'Save'}
+                
+                <div className="flex justify-end space-x-4 pt-4 border-t border-white/10">
+                  <button 
+                    type="button" 
+                    onClick={handleCloseModal}
+                    className="px-6 py-2.5 bg-white/5 hover:bg-white/10 text-white font-medium rounded-xl transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl shadow-[0_0_15px_rgba(79,70,229,0.3)] transition-all"
+                  >
+                    Save Note
                   </button>
                 </div>
               </form>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };

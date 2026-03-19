@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Story from './pages/Story';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = React.useContext(AuthContext);
@@ -22,7 +21,6 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/story" element={<Story />} />
             <Route 
               path="/" 
               element={

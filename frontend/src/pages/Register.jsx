@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { BookOpen } from 'lucide-react';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -21,61 +21,79 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="glass p-8 rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden"
-      >
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-500 to-purple-500"></div>
-        <h2 className="text-3xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-600">Create Account</h2>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+      
+      {/* Removed background glow effects for a simpler look */}
+
+      <div className="w-full max-w-md space-y-8 relative z-10 my-8">
         
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block mb-2 text-gray-300">Name</label>
-            <input 
-              type="text" 
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pink-500 transition-colors"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-3xl shadow-2xl">
+          <div className="flex flex-col items-center justify-center mb-8">
+            <div className="bg-purple-500/20 p-4 rounded-full mb-4">
+              <BookOpen className="text-purple-400 h-8 w-8" />
+            </div>
+            <h2 className="text-center text-3xl font-extrabold text-white tracking-tight">Create an account</h2>
+            <p className="mt-2 text-center text-sm text-gray-400">Start organizing your universe today.</p>
           </div>
-          <div>
-            <label className="block mb-2 text-gray-300">Email</label>
-            <input 
-              type="email" 
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pink-500 transition-colors"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-2 text-gray-300">Password</label>
-            <input 
-              type="password" 
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pink-500 transition-colors"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength="6"
-            />
-          </div>
-          <motion.button 
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit" 
-            className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg shadow-pink-500/30 transition-all"
-          >
-            Register
-          </motion.button>
-        </form>
-        <p className="mt-6 text-center text-gray-400">
-          Already have an account? <Link to="/login" className="text-pink-400 hover:text-pink-300">Log In</Link>
-        </p>
-      </motion.div>
+
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                <input 
+                  type="text" 
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required 
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-medium" 
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Email address</label>
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-medium" 
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                <input 
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                  minLength="6"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-medium" 
+                  placeholder="At least 6 characters"
+                />
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button 
+                type="submit" 
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-[0_0_15px_rgba(147,51,234,0.3)] text-sm font-bold text-white bg-purple-600 hover:bg-purple-500 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(147,51,234,0.5)]"
+              >
+                Sign Up
+              </button>
+            </div>
+          </form>
+
+          <p className="mt-8 text-center text-sm text-gray-400">
+            Already have an account?{' '}
+            <Link to="/login" className="font-medium text-purple-400 hover:text-purple-300 transition-colors">
+              Log in
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
