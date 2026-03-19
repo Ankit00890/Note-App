@@ -1,4 +1,4 @@
-# Notes App 🚀
+# Notes App 
 
 A modern, responsive, and animated personal Notes Application built with the MERN stack (MongoDB, Express, React, Node.js). 
 This app allows users to create an account, log in securely, and manage their personal notes.
@@ -59,5 +59,3 @@ npm run dev
 - **Frontend**: The React app is ready to be built (`npm run build`) and hosted on Netlify or Vercel.
 - **Backend**: The Node server is ready to be hosted on Railway, Render, or Heroku. Make sure to configure the Environment variables on the platform.
 
-## Author
-Built with ❤️ from 0 to Z.
