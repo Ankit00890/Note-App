@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  // Automatically uses Render backend (fallback for local if .env is missing)
+  baseURL: import.meta.env.VITE_API_URL || 'https://note-app-wnqb.onrender.com/api',
 });
 
 api.interceptors.request.use(
